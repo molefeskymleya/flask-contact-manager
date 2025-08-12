@@ -20,7 +20,8 @@ A simple contact management web app built using Flask and Python. This project l
 2. Navigate inside: `cd flask-contact-manager`
 3. Run the app: `python app.py` or `flask run`
 4. Visit: `http://127.0.0.1:5000`
+5. Now also available on render: `https://flask-contact-manager.onrender.com`
 
 ## Next Steps
 - Add contact persistence using SQLite
-- Deploy on Render or Replit
+
