@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-# Force the DB to save in the root folder, not /instance
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./contacts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -48,5 +47,5 @@ def api_list_contacts():
     return jsonify(data)
 
 if __name__ == '__main__':
-    # Local run. Render will use gunicorn from your Procfile.
+    # Local run. Render will use gunicorn from Procfile.
     app.run(debug=True, host='0.0.0.0', port=5050)
