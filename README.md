@@ -1,27 +1,55 @@
-# Flask Contact Manager
+##Flask Contact Manager##
 
-A simple contact management web app built using Flask and Python. This project lets users add, view, and delete contact entries in a local list.
+#Features
+	•	Add, view, update, and delete contacts via HTML form or API requests
+	•	Persistent storage with SQLite
+	•	JSON API endpoints for automated testing
+	•	Basic validation and error handling
+	•	Styled with Bootstrap
+	•	Ready for Selenium UI tests and Postman API tests
 
-## Features
-- Add new contacts via HTML form
-- View all saved contacts on a single page
-- Delete unwanted entries
-- Styled with basic CSS and Bootstrap
+#Tools & Technologies
+	•	Python 3
+	•	Flask
+	•	Flask-SQLAlchemy
+	•	SQLite
+	•	HTML/CSS + Bootstrap
+	•	Postman
+	•	Selenium + pytest
+	•	Git/GitHub
+	•	Render (deployment)
 
-## Tools Used
-- Python
-- Flask
-- HTML/CSS
-- Bootstrap (optional)
-- Git/GitHub for version control
+#API Endpoints
+	•	GET /api/contacts – Get all contacts in JSON
+	•	POST /api/contacts – Create a new contact
+	•	PUT /api/contacts/<id> – Update a contact
+	•	DELETE /api/contacts/<id> – Delete a contact
+	•	GET /healthz – Health check
 
-## Setup
-1. Clone the repo: `git clone https://github.com/molefeskymleya/flask-contact-manager.git`
-2. Navigate inside: `cd flask-contact-manager`
-3. Run the app: `python app.py` or `flask run`
-4. Visit: `http://127.0.0.1:5000`
-5. Now also available on render: `https://flask-contact-manager.onrender.com`
+#Setup
+	1.	Clone the repo
+git clone https://github.com/molefeskymleya/flask-contact-manager.git
+cd flask-contact-manager
 
-## Next Steps
-- Add contact persistence using SQLite
+  2. Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # Mac/Linux
+venv\Scripts\activate     # Windows
 
+  3. Install dependencies
+pip install -r requirements.txt
+
+  4. Run locally
+python app.py
+Visit http://127.0.0.1:5000
+
+#Live Demo
+	•	https://flask-contact-manager.onrender.com
+
+#Next Steps
+	•	Add an Edit button to update contact details from the UI
+	•	Create a Search function to quickly find contacts
+	•	Add a Thank You page after successfully adding a contact
+	•	Include a Navigation link to return to the home page from other views
+	•	Implement Flask template inheritance with a layout.html base file containing placeholders for titles, content blocks, and a shared footer
+	•	Break HTML into reusable template parts (header, footer, navigation) for a more dynamic and maintainable structure
