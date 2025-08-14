@@ -1,6 +1,7 @@
 ##Flask Contact Manager##
 
 #Features
+
 	•	Add, view, update, and delete contacts via HTML form or API requests
 	•	Persistent storage with SQLite
 	•	JSON API endpoints for automated testing
@@ -9,6 +10,7 @@
 	•	Ready for Selenium UI tests and Postman API tests
 
 #Tools & Technologies
+
 	•	Python 3
 	•	Flask
 	•	Flask-SQLAlchemy
@@ -20,6 +22,7 @@
 	•	Render (deployment)
 
 #API Endpoints
+
 	•	GET /api/contacts – Get all contacts in JSON
 	•	POST /api/contacts – Create a new contact
 	•	PUT /api/contacts/<id> – Update a contact
@@ -59,9 +62,11 @@ Visit http://127.0.0.1:5000
 
 
 #Live Demo
+
 	•	https://flask-contact-manager.onrender.com
 
 #Next Steps
+
 	•	Add an Edit button to update contact details from the UI
 	•	Create a Search function to quickly find contacts
 	•	Add a Thank You page after successfully adding a contact
