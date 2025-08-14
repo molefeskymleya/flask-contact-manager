@@ -18,7 +18,7 @@
     <ul>
         {% for contact in contacts %}
         <li>{{ contact.name }} ({{ contact.phone }})
-            <a href="/delete/{{ loop.index0 }}">Delete</a>
+            <a href="/delete/{{ contact.id }}">Delete</a>
         </li>
         {% endfor %}
     </ul>
