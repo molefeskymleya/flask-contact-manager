@@ -1,75 +1,65 @@
-##Flask Contact Manager##
+# **Flask Contact Manager**
 
-#Features
+# Setup Instructions
 
-	•	Add, view, update, and delete contacts via HTML form or API requests
-	•	Persistent storage with SQLite
-	•	JSON API endpoints for automated testing
-	•	Basic validation and error handling
-	•	Styled with Bootstrap
-	•	Ready for Selenium UI tests and Postman API tests
+## Create and activate a virtual environment
 
-#Tools & Technologies
-
-	•	Python 3
-	•	Flask
-	•	Flask-SQLAlchemy
-	•	SQLite
-	•	HTML/CSS + Bootstrap
-	•	Postman
-	•	Selenium + pytest
-	•	Git/GitHub
-	•	Render (deployment)
-
-#API Endpoints
-
-	•	GET /api/contacts – Get all contacts in JSON
-	•	POST /api/contacts – Create a new contact
-	•	PUT /api/contacts/<id> – Update a contact
-	•	DELETE /api/contacts/<id> – Delete a contact
-	•	GET /healthz – Health check
-
-#Setup
-
-	1.	Clone the repo
-
-
-git clone https://github.com/molefeskymleya/flask-contact-manager.git
-
-cd flask-contact-manager
-
-
-	2.	Create and activate a virtual environment (optional but recommended)
-
-
+``` bash
 python -m venv venv
-
 source venv/bin/activate  # Mac/Linux
-
 venv\Scripts\activate     # Windows
+```
 
+## Install dependencies
 
-	3.	Install dependencies
-
+``` bash
 pip install -r requirements.txt
+```
 
+## Run locally
 
-	4.	Run locally
-
+``` bash
 python app.py
+```
 
-Visit http://127.0.0.1:5000
+Visit: <http://127.0.0.1:5000>
 
+## Live Demo
 
-#Live Demo
+<https://flask-contact-manager.onrender.com>
 
-	•	https://flask-contact-manager.onrender.com
+## Running Tests on Render
 
-#Next Steps
+-   Render installs Chromium and ChromeDriver during the build,
+    configured in `render.yaml`.
+-   UI tests use headless Chrome with system paths:
+    -   Chrome binary: `/usr/bin/chromium`
+    -   ChromeDriver: `/usr/bin/chromedriver`
+-   Tests read the base URL from the `BASE_URL` environment variable.
+    -   On Render: `https://flask-contact-manager.onrender.com`
+    -   Locally you can override with:
 
-	•	Add an Edit button to update contact details from the UI
-	•	Create a Search function to quickly find contacts
-	•	Add a Thank You page after successfully adding a contact
-	•	Include a Navigation link to return to the home page from other views
-	•	Implement Flask template inheritance with a layout.html base file containing placeholders for titles, content blocks, and a shared footer
-	•	Break HTML into reusable template parts (header, footer, navigation) for a more dynamic and maintainable structure
+``` bash
+BASE_URL=http://127.0.0.1:5000 pytest
+```
+
+-   A worker service can run `pytest -q` against the live site and then
+    exit.\
+    Check results in the Render worker logs.
+
+## Next Steps
+
+-   Add an **Edit button** to update contact details from the UI
+-   Create a **Search function** to quickly find contacts
+-   Add a **Thank You page** after successfully adding a contact
+-   Include a **Navigation link** to return to the home page from other
+    views
+-   Implement **Flask template inheritance** with a `layout.html` base
+    file containing placeholders for titles, content blocks, and a
+    shared footer
+-   Break HTML into **reusable template parts** for a more maintainable
+    structure
+-   Enhance the interface by expanding **Bootstrap components and
+    styling** so the app looks cleaner and is easier to use
+-   Add **user authentication with logins** so users can manage their
+    own contact lists
