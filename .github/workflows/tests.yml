@@ -27,8 +27,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.txt || true
           pip install selenium pytest
+
+      - name: Smoke check, can we reach the app
+        env:
+          BASE_URL: https://flask-contact-manager.onrender.com
+        run: |
+          echo "Hitting $BASE_URL"
+          curl -I --max-time 15 "$BASE_URL"
 
       - name: Run pytest
         env:
