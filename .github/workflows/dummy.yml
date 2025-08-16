@@ -16,10 +16,10 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install pytest and selenium
+      - name: Install pytest only
         run: |
           python -m pip install --upgrade pip
-          pip install pytest selenium
+          pip install pytest
 
-      - name: Run only the dummy test
-        run: pytest -vv -k test_dummy
+      - name: Run only the dummy test file
+        run: pytest -vv tests/test_dummy.py
