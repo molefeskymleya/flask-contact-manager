@@ -1,48 +1,33 @@
 # tests/conftest.py
-import os
-import shutil
-import pytest
+import os, shutil, pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
-# Render defaults you already used
 RENDER_CHROME = "/usr/bin/chromium"
 RENDER_CHROME_ALT = "/usr/bin/chromium-browser"
 RENDER_DRIVER = "/usr/bin/chromedriver"
 RENDER_DRIVER_ALT = "/usr/bin/chromium-driver"
 
 def _detect_browser_binary():
-    # 1) Prefer explicit env from CI
     env_path = os.getenv("CHROME_PATH")
-    if env_path and shutil.which(env_path) or (env_path and os.path.exists(env_path)):
+    if env_path and (shutil.which(env_path) or os.path.exists(env_path)):
         return env_path
-
-    # 2) Common GitHub Actions path
     gh_path = shutil.which("google-chrome") or "/usr/bin/google-chrome"
     if gh_path and os.path.exists(gh_path):
         return gh_path
-
-    # 3) Render paths
     for p in (RENDER_CHROME, RENDER_CHROME_ALT):
         if os.path.exists(p):
             return p
-
-    # 4) Let Selenium pick a system Chrome if available
     return None
 
 def _detect_chromedriver():
-    # 1) Prefer explicit env from CI
     env_drv = os.getenv("CHROMEDRIVER_PATH")
     if env_drv and os.path.exists(env_drv):
         return env_drv
-
-    # 2) Render paths
     for p in (RENDER_DRIVER, RENDER_DRIVER_ALT):
         if os.path.exists(p):
             return p
-
-    # 3) None → Selenium Manager will fetch the right driver
     return None
 
 @pytest.fixture(scope="session")
@@ -55,6 +40,7 @@ def driver():
     opts.add_argument("--headless=new")
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
+    opts.add_argument("--window-size=1366,768")
 
     chrome_bin = _detect_browser_binary()
     if chrome_bin:
@@ -65,7 +51,6 @@ def driver():
         service = Service(chromedriver_path)
         drv = webdriver.Chrome(service=service, options=opts)
     else:
-        # Let Selenium Manager resolve the driver
         drv = webdriver.Chrome(options=opts)
 
     yield drv
