@@ -1,3 +1,4 @@
+# .github/workflows/tests.yml
 name: Run UI Tests
 
 on:
@@ -35,10 +36,10 @@ jobs:
           BASE_URL: https://flask-contact-manager.onrender.com
         run: |
           echo "Hitting $BASE_URL"
-          curl -I --max-time 15 "$BASE_URL"
+          curl -I --max-time 20 "$BASE_URL"
 
-      - name: Run pytest
+      - name: Run pytest (verbose)
         env:
           BASE_URL: https://flask-contact-manager.onrender.com
           CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
-        run: pytest -q
+        run: pytest -vv -rA --maxfail=1
