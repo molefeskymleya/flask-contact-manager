@@ -20,12 +20,29 @@ def _detect_browser_binary():
             return p
     return None
 
+def _strip_old_chromedriver_from_path():
+    """Remove any PATH entries that contain a 'chromedriver' file, so Selenium
+    Manager is forced to fetch a matching driver for the installed Chrome."""
+    parts = os.environ.get("PATH", "").split(os.pathsep)
+    keep = []
+    for d in parts:
+        try:
+            if os.path.exists(os.path.join(d, "chromedriver")):
+                # Skip directories that ship an old chromedriver
+                continue
+        except Exception:
+            pass
+        keep.append(d)
+    os.environ["PATH"] = os.pathsep.join(keep)
+
 @pytest.fixture(scope="session")
 def base_url():
     return os.getenv("BASE_URL", "https://flask-contact-manager.onrender.com")
 
 @pytest.fixture(scope="session")
 def driver():
+    _strip_old_chromedriver_from_path()
+
     opts = Options()
     opts.add_argument("--headless=new")
     opts.add_argument("--no-sandbox")
@@ -36,7 +53,7 @@ def driver():
     if chrome_bin:
         opts.binary_location = chrome_bin
 
-    # Selenium Manager will fetch the right driver for the installed Chrome
+    # No Service path. Let Selenium Manager fetch the right driver for Chrome 141.
     drv = webdriver.Chrome(options=opts)
     yield drv
     drv.quit()
