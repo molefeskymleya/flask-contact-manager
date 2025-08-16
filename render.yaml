@@ -1,1 +1,28 @@
+services:
+  - type: web
+    name: flask-contact-manager
+    env: python
+    buildCommand: |
+      apt-get update
+      apt-get install -y chromium chromium-driver
+      pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      # optional, for API tests that hit the live app
+      - key: BASE_URL
+        value: https://flask-contact-manager.onrender.com
 
+  # Optional worker that runs pytest against the live site
+  - type: worker
+    name: flask-contact-manager-tests
+    env: python
+    buildCommand: |
+      apt-get update
+      apt-get install -y chromium chromium-driver
+      pip install -r requirements.txt
+    startCommand: BASE_URL=https://flask-contact-manager.onrender.com pytest -q
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
