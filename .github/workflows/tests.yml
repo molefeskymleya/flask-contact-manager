@@ -27,7 +27,25 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt || true
-          pip install -U selenium pytest
+          pip install -U selenium pytest requests
+
+      # Warm-up with retries so Render has time to be ready
+      - name: Warm up Render app
+        env:
+          BASE_URL: https://flask-contact-manager.onrender.com
+        run: |
+          echo "Warming $BASE_URL"
+          ok_codes='200|301|302'
+          for i in {1..18}; do  # ~90 seconds total
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/")
+            if echo "$code" | grep -Eq "$ok_codes"; then
+              echo "Up with $code"; exit 0
+            fi
+            echo "Try $i: got $code, waiting..."
+            sleep 5
+          done
+          echo "Final headers:" && curl -I "$BASE_URL/"
+          exit 1
 
       - name: Run pytest
         env:
