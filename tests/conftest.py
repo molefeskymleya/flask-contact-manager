@@ -1,13 +1,12 @@
 # tests/conftest.py
-import os, shutil, pytest
+import os
+import shutil
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 
 RENDER_CHROME = "/usr/bin/chromium"
 RENDER_CHROME_ALT = "/usr/bin/chromium-browser"
-RENDER_DRIVER = "/usr/bin/chromedriver"
-RENDER_DRIVER_ALT = "/usr/bin/chromium-driver"
 
 def _detect_browser_binary():
     env_path = os.getenv("CHROME_PATH")
@@ -17,15 +16,6 @@ def _detect_browser_binary():
     if gh_path and os.path.exists(gh_path):
         return gh_path
     for p in (RENDER_CHROME, RENDER_CHROME_ALT):
-        if os.path.exists(p):
-            return p
-    return None
-
-def _detect_chromedriver():
-    env_drv = os.getenv("CHROMEDRIVER_PATH")
-    if env_drv and os.path.exists(env_drv):
-        return env_drv
-    for p in (RENDER_DRIVER, RENDER_DRIVER_ALT):
         if os.path.exists(p):
             return p
     return None
@@ -46,12 +36,7 @@ def driver():
     if chrome_bin:
         opts.binary_location = chrome_bin
 
-    chromedriver_path = _detect_chromedriver()
-    if chromedriver_path:
-        service = Service(chromedriver_path)
-        drv = webdriver.Chrome(service=service, options=opts)
-    else:
-        drv = webdriver.Chrome(options=opts)
-
+    # Selenium Manager will fetch the right driver for the installed Chrome
+    drv = webdriver.Chrome(options=opts)
     yield drv
     drv.quit()
