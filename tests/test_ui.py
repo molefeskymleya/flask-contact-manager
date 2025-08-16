@@ -1,11 +1,11 @@
+# tests/test_ui.py
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def test_homepage_loads(driver, base_url):
+def test_smoke_loads(driver, base_url):
     driver.get(base_url)
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.TAG_NAME, "body"))
-    )
-    # Adjust the text below to match something that always appears on your page
-    assert "Contacts" in driver.page_source
+    wait = WebDriverWait(driver, 15)
+    # Prove the form renders
+    wait.until(EC.presence_of_element_located((By.NAME, "name")))
+    wait.until(EC.presence_of_element_located((By.NAME, "phone")))
