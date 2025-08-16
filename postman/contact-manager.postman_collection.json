@@ -1,1 +1,243 @@
-
+{
+	"info": {
+		"_postman_id": "58f0b13a-1247-4a4b-8565-21efb011311e",
+		"name": "Contact Manager API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47550934"
+	},
+	"item": [
+		{
+			"name": "GET all contacts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+							"pm.test(\"JSON array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://flask-contact-manager.onrender.com/api/contacts",
+					"protocol": "https",
+					"host": [
+						"flask-contact-manager",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST a new contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status 201\", () => pm.response.to.have.status(201));",
+							"",
+							"const body = pm.response.json();",
+							"pm.test(\"has id\", () => pm.expect(body.id).to.be.a(\"number\"));",
+							"",
+							"pm.collectionVariables.set(\"id\", body.id);",
+							"console.log(\"Saved id:\", body.id);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Aoi\", \"phone\": \"080-1111-2222\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://flask-contact-manager.onrender.com/api/contacts",
+					"protocol": "https",
+					"host": [
+						"flask-contact-manager",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT update the contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+							"",
+							"const body = pm.response.json();",
+							"pm.test(\"updated\", () => pm.expect(body.status).to.eql(\"updated\"));",
+							"",
+							"console.log(\"PUT response:\", pm.response.code, pm.response.text());",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Aoi Tanaka\", \"phone\": \"080-3333-4444\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://flask-contact-manager.onrender.com/api/contacts/{{id}}",
+					"protocol": "https",
+					"host": [
+						"flask-contact-manager",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"contacts",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE the contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+							"",
+							"let body = {};",
+							"try {",
+							"    body = pm.response.json();",
+							"    pm.test(\"deleted\", () => pm.expect(body.status).to.eql(\"deleted\"));",
+							"} catch (e) {",
+							"    console.log(\"DEBUG: No JSON body or parse failed\", e);",
+							"}",
+							"console.log(\"DELETE response:\", pm.response.code, pm.response.text());",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://your-service.onrender.com/api/contacts/{{id}}",
+					"protocol": "https",
+					"host": [
+						"your-service",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"contacts",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete verification",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"contact is gone\", () => pm.response.to.have.status(404));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Aoi Tanaka\", \"phone\": \"080-3333-4444\" }"
+				},
+				"url": {
+					"raw": "https://flask-contact-manager.onrender.com/api/contacts/{{id}}",
+					"protocol": "https",
+					"host": [
+						"flask-contact-manager",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"contacts",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
